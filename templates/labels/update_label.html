@@ -1,12 +1,12 @@
 {% extends '../layout.html' %}
-{% load bootstrap5 i18n %}
+{% load bootstrap5 %}
 {% block content %}
 
-<h1 class="my-4">{% translate 'Update label' %}</h1>
+<h1 class="my-4">Редактировать метку</h1>
 <form method="post">
-  {% csrf_token %}
-  {% bootstrap_form form %}
-  <input class="btn btn-primary" type="submit" value="{% translate 'Update' %}">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <input class="btn btn-primary" type="submit" value="Редактировать">
 </form>
 
 {% endblock content %}

@@ -1,10 +1,11 @@
 import django_filters
-from .models import Task
 from django import forms
+from django.utils.translation import gettext_lazy as _
+
+from task_manager.label.models import Label
 from task_manager.status.models import Status
 from task_manager.user.models import User
-from task_manager.label.models import Label
-from django.utils.translation import gettext_lazy as _
+from .models import Task
 
 
 class TaskFilter(django_filters.FilterSet):
@@ -15,23 +16,23 @@ class TaskFilter(django_filters.FilterSet):
     status = django_filters.ModelChoiceFilter(
         queryset=Status.objects.all(),
         label_suffix='',
-        label=_('Status')
+        label=_('Статус')
     )
     executor = django_filters.ModelChoiceFilter(
         queryset=User.objects.all(),
         label_suffix='',
-        label=_('Executor'),
+        label=_('Исполняющий'),
     )
     labels = django_filters.ModelChoiceFilter(
         queryset=Label.objects.all(),
         label_suffix='',
-        label=_('Label'),
+        label=_('Метки'),
     )
     author = django_filters.BooleanFilter(
         method='author_filter',
         widget=forms.CheckboxInput(),
         label_suffix='',
-        label=_('My tasks only'),
+        label=_('Только мои задачи'),
     )
 
     def author_filter(self, queryset, name, value):
