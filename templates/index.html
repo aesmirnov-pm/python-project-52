@@ -1,25 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>{% block title %}{% endblock %}</title>
-    {% load bootstrap5 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
-</head>
-<body>
+{% include "head.html" %}
+<body class="d-flex flex-column min-vh-100">
+{% include "navigation.html" %}
 
-<div class="container">
-    <ul class="nav bg-info">
-        <li class="nav-item">
-            <a class="nav-link link-light" href="/">HOME</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link link-light" href="/members">MEMBERS</a>
-        </li>
-    </ul>
-
-    {% block content %}
-    {% endblock %}
+<div class="container wrapper flex-grow-1">
+    <h1 class="my-4"></h1>
+    <div class="card">
+        <div class="card-body p-5 bg-light">
+            <div>Hello world</div>
+        </div>
+    </div>
 </div>
 </body>
+
+{% include "footer.html" %}
 </html>
