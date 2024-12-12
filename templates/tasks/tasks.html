@@ -1,0 +1,51 @@
+{% extends '../layout.html' %}
+{% load bootstrap5 %}
+{% block content %}
+
+<h1 class="my-4">Задачи</h1>
+<a class="nav-link" href="/tasks/create/">Создать задачу</a>
+
+<div class="card mb-3">
+    <div class="card-body bg-light">
+        <form class="text-left" method="get">
+            {% csrf_token %}
+            {% bootstrap_form filter.form form_group_class="row mb-2" %}
+            <div class="form-group">
+                <input class="btn btn-primary text-right" type="submit" value="Показать">
+            </div>
+        </form>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Название задачи</th>
+        <th>Статус</th>
+        <th>Автор</th>
+        <th>Исполнитель</th>
+        <th>Создана</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for task in tasks %}
+    <tr>
+        <td>{{ task.id }}</td>
+        <td><a href="{% url 'task_view' pk=task.id %}">{{ task.name }}</a></td>
+        <td>{{ task.status }}</td>
+        <td>{{ task.author }}</td>
+        <td>{{ task.executor }}</td>
+        <td>{{ task.created_at }}</td>
+        <td>
+            <a href="{% url 'task_update' pk=task.id %}">Редактировать</a>
+            <br>
+            <a href="{% url 'task_delete' pk=task.id %}">Удалить</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}
+

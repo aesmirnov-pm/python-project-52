@@ -1,0 +1,33 @@
+{% extends '../layout.html' %}
+{% load bootstrap5 %}
+{% block content %}
+
+<h1 class="my-4">Пользователи</h1>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Имся</th>
+        <th>Фамилия</th>
+        <th>Создан</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for user in user_list %}
+    <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.first_name }} {{ user.last_name }}</td>
+        <td>{{ user.date_joined }}</td>
+        <td>
+            <a href="{% url 'user_update' user.id %}">Редактировать</a>
+            <br>
+            <a href="{% url 'user_delete' user.id %}">Удалить</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock content %}

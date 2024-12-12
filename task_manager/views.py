@@ -1,59 +1,12 @@
-from django.contrib import messages
-from django.contrib.auth import login, logout
-from django.shortcuts import redirect, render
-from django.utils.translation import gettext as _
+from django.shortcuts import render
 from django.views.generic.base import TemplateView
-
-from .forms import InactiveUserAuthenticationForm
-from .user.models import User
-
-NAVIGATION = {
-    'title': _('Task Manager'),
-    'users': _('Users'),
-    'log_in': _('Log in'),
-    'log_out': _('Log out'),
-    'registration': _('Sign up')
-}
 
 
 class IndexView(TemplateView):
 
     def get(self, request, *args, **kwargs):
-        index = {
-            'greeting': _('Hello, User!'),
-            'info': _('Here you can set tasks to the team'),
-            'author': _('Learn more about the author')
-        }
-
-        return render(request, 'index.html', context=index | NAVIGATION)
+        return render(request, 'index.html')
 
 
-class UsersLoginView(TemplateView):
-
-    def get(self, request, *args, **kwargs):
-        form = InactiveUserAuthenticationForm()
-        return render(request, 'login.html', NAVIGATION | {
-            'form': form
-        })
-
-    def post(self, request, *args, **kwargs):
-        try:
-            user = User.objects.get(username=request.POST.get('username'))
-            if user.check_password(request.POST.get('password')):
-                login(request, user)
-                messages.add_message(request, messages.SUCCESS, _('You have logged in'))
-                return redirect('home')
-        except User.DoesNotExist:
-            messages.add_message(
-                request,
-                messages.ERROR,
-                _("Enter correct username and password. Both fields can becase-sensitive"))
-        return redirect('login')
-
-
-class UsersLogoutView(TemplateView):
-
-    def post(self, request, *args, **kwargs):
-        logout(request)
-        messages.add_message(request, messages.INFO, _('You have logged out'))
-        return redirect('home')
+def error_404(request, exception):
+    return render(request, '404.html')

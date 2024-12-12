@@ -1,115 +1,73 @@
 from django.contrib import messages
-from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
-from django.utils.decorators import method_decorator
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
-from django.views.generic.base import TemplateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.list import ListView
 
-from .forms import UserForm
+from .forms import UserSignUpForm, UserUpdateForm
 from .models import User
-
-NAVIGATION = {
-    'title': _('Task Manager'),
-    'users': _('Users'),
-    'log_in': _('Log in'),
-    'log_out': _('Log out'),
-    'registration': _('Sign up')
-}
+from task_manager.mixins import (NeedAuthMixin, NeedPermitMixin, FeedbackMixin,
+                                 DeleteErrorMixin, HandleNoPermissionMixin)
 
 
 # ALL USERS page
-class UsersView(TemplateView):
-
-    def get(self, request, *args, **kwargs):
-        table = {
-            'column_name': _('User name'),
-            'column_fname': _('Full name'),
-            'column_created': _('Created at'),
-            'row_edit': _('Edit'),
-            'row_delete': _('Delete'),
-        }
-        users = User.objects.all()
-        return render(request, 'users.html', context={'user_list': users} | NAVIGATION | table)
+class UsersView(ListView):
+    model = User
+    template_name = 'users/users.html'
+    ordering = ['id']
 
 
 # CREATE USER page
-class UsersCreateFormView(TemplateView):
-
-    def get(self, request, *args, **kwargs):
-        form = UserForm()
-        return render(request, 'new_user.html', NAVIGATION | {'form': form})
-
-    def post(self, request, *args, **kwargs):
-        form = UserForm(request.POST)
-        if form.is_valid() and form.clean_confirmation():
-            form.save()
-            messages.add_message(request, messages.SUCCESS, _('The user has been registered'))
-            return redirect('login')
-        #       'Пользователь с таким именем уже существует'
-        messages.add_message(request, messages.ERROR, _('Check the inserted data'))
-        return render(request, 'new_user.html', NAVIGATION | {'form': form})
+class UsersCreateFormView(SuccessMessageMixin, CreateView):
+    model = User
+    form_class = UserSignUpForm
+    success_url = reverse_lazy('login')
+    template_name = 'users/new_user.html'
+    success_message = _('The user has been registered')
 
 
 # UPDATE USER page
-class UsersUpdateView(TemplateView):
-
-    def get(self, request, *args, **kwargs):
-        user_id = kwargs.get('pk')
-        if request.user.id == user_id:
-            user = User.objects.get(id=user_id)
-            form = UserForm(instance=user)
-            return render(request, 'update.html', NAVIGATION | {'form': form, 'user_id': user_id})
-
-        elif request.user.is_anonymous:
-            messages.add_message(request, messages.ERROR,
-                                 _("You are not authenticated! Please, log in."))
-            return redirect('login')
-
-        else:
-            messages.add_message(request, messages.ERROR,
-                                 _("You are not authorized to change other users."))
-            return redirect('users')
-
-    @method_decorator(login_required)
-    def post(self, request, *args, **kwargs):
-        user_id = kwargs.get('pk')
-        user = User.objects.get(id=user_id)
-        form = UserForm(request.POST, instance=user)
-        if form.is_valid and request.user.id == user_id:
-            form.save()
-            messages.add_message(request, messages.SUCCESS, _("The user has been updated"))
-            login(request, user)
-            return redirect('users')
-        return render(request, 'update.html', {'form': form, 'user_id': user_id})
+class UsersUpdateView(SuccessMessageMixin, HandleNoPermissionMixin,
+                      NeedAuthMixin, NeedPermitMixin, UpdateView):
+    model = User
+    form_class = UserUpdateForm
+    template_name = 'users/update_user.html'
+    login_url = reverse_lazy('login')
+    unauthorized_url = reverse_lazy('users')
+    success_url = reverse_lazy('users')
+    success_message = _('The user has been updated')
 
 
 # DELETE USER page
-class UsersDeleteView(TemplateView):
+class UsersDeleteView(SuccessMessageMixin, HandleNoPermissionMixin, NeedAuthMixin,
+                      NeedPermitMixin, DeleteErrorMixin, DeleteView):
+    model = User
+    template_name = 'users/delete_user.html'
+    login_url = reverse_lazy('login')
+    success_url = reverse_lazy('users')
+    success_message = _('The user has been deleted')
+    reject_message = _('You cannot delete the user that is ascribed a task')
 
-    def get(self, request, *args, **kwargs):
-        user_id = kwargs.get('pk')
-        if request.user.id == user_id:
-            user = User.objects.get(id=user_id)
-            return render(request, 'delete.html', NAVIGATION | {
-                'user_id': user_id,
-                'fullname': f'{user.first_name} {user.last_name}'
-            })
 
-        elif request.user.is_anonymous:
-            messages.add_message(request, messages.ERROR,
-                                 _("You are not authenticated! Please, log in."))
-            return redirect('login')
+# LOGIN USER page
+class UsersLoginView(FeedbackMixin, LoginView):
+    model = User
+    form_class = AuthenticationForm
+    redirect_authenticated_user = True
+    template_name = 'login.html'
+    next_page = reverse_lazy('home')
+    success_message = _('You have logged in')
+    error_message = _('Enter correct username and password. Both fields can be case-sensitive')
 
-        messages.add_message(request, messages.ERROR,
-                             _("You are not authorized to change other users."))
-        return redirect('users')
 
-    @method_decorator(login_required)
-    def post(self, request, *args, **kwargs):
-        user_id = kwargs.get('pk')
-        user = User.objects.get(id=user_id)
-        if user and request.user.id == user_id:
-            user.delete()
-            messages.add_message(request, messages.SUCCESS, _("The user has been deleted"))
-        return redirect('users')
+# LOGOUT USER page
+class UsersLogoutView(LogoutView):
+    next_page = reverse_lazy('home')
+    success_message = _('You have logged out')
+
+    def dispatch(self, request, *args, **kwargs):
+        messages.add_message(request, messages.INFO, self.success_message)
+        return super().dispatch(request, *args, **kwargs)
