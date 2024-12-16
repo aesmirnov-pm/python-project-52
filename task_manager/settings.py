@@ -121,10 +121,6 @@ MESSAGE_TAGS = {message_constants.ERROR: "danger"}
 
 LANGUAGE_CODE = 'ru-RU'
 
-LANGUAGES = (
-    ('ru-RU', 'Russian')
-)
-
 TIME_ZONE = 'UTC'
 
 USE_I18N = True

@@ -1,6 +1,5 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
-from django.utils.translation import gettext as _
 
 
 class UserTest(TestCase):
@@ -39,7 +38,7 @@ class UserTest(TestCase):
                                                   follow=True,
                                                   data=self.form_data)
         self.assertContains(response_register_user,
-                            _('The user has been registered'),
+                            'Пользователь зарегистрирован',
                             status_code=200)
 
         self.assertIsNotNone(get_user_model().objects.filter(
@@ -66,7 +65,7 @@ class UserTest(TestCase):
         response_update_user = self.client.post('/users/{}/update/'.format(self.form_data_1['id']),
                                                 follow=True,
                                                 data=self.form_data)
-        self.assertContains(response_update_user, _('The user has been updated'), status_code=200)
+        self.assertContains(response_update_user, 'Пользователь обновлен', status_code=200)
 
         self.assertEqual(get_user_model().objects.get(
             id=self.form_data_1['id']).username, self.username)
@@ -76,7 +75,7 @@ class UserTest(TestCase):
                           password=self.form_data_1['password1'])
         response_delete_user = self.client.post('/users/{}/delete/'.format(self.users[0].id),
                                                 follow=True)
-        self.assertContains(response_delete_user, _('The user has been deleted'), status_code=200)
+        self.assertContains(response_delete_user, 'Пользователь успешно удален', status_code=200)
         self.assertEqual(get_user_model().objects.filter(
             username=self.form_data_1['username']).exists(), False)
 
@@ -91,7 +90,7 @@ class UserTest(TestCase):
                                                })
         self.assertContains(
             response_login_user,
-            _('You have logged in'),
+            'Вы вошли',
             status_code=200,
         )
         self.assertTrue(self.user.is_authenticated)
@@ -104,7 +103,7 @@ class UserTest(TestCase):
                                                })
         self.assertContains(
             response_login_user,
-            _('Enter correct username and password. Both fields can be case-sensitive'),
+            'Введите правильное имя пользователя и пароль',
             status_code=200
         )
 
@@ -114,12 +113,12 @@ class UserTest(TestCase):
         response_delete_user = self.client.post('/users/{}/delete/'.format(self.users[1].id),
                                                 follow=True)
         self.assertContains(response_delete_user,
-                            _('You are not authorized to change other users.'),
+                            'У вас нет прав редактировать пользователей.',
                             status_code=200)
 
         response_update_user = self.client.post('/users/{}/update/'.format(self.users[1].id),
                                                 follow=True,
                                                 data=self.form_data_2)
         self.assertContains(response_update_user,
-                            _('You are not authorized to change other users.'),
+                            'У вас нет прав редактировать пользователей.',
                             status_code=200)

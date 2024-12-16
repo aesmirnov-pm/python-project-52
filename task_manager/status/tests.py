@@ -1,7 +1,7 @@
-from django.test import TestCase
 from django.contrib.auth import get_user_model
+from django.test import TestCase
+
 from .models import Status
-from django.utils.translation import gettext as _
 
 
 class StatusTest(TestCase):
@@ -25,7 +25,7 @@ class StatusTest(TestCase):
                                                   follow=True,
                                                   data={'name': self.status})
         self.assertContains(response_create_status,
-                            _('The status has been created'),
+                            'Статус создан',
                             status_code=200)
         self.assertEqual(self.statuses.count(), 1)
         self.assertEqual(self.statuses.first().name, self.status)
@@ -36,7 +36,7 @@ class StatusTest(TestCase):
                                                   follow=True,
                                                   data={'name': self.status_upd})
         self.assertContains(response_update_status,
-                            _('The status has been updated'),
+                            'Статус обновлен',
                             status_code=200)
         self.assertEqual(self.statuses.first().name, self.status_upd)
 
@@ -45,6 +45,6 @@ class StatusTest(TestCase):
         response_delete_status = self.client.post('/statuses/1/delete/',
                                                   follow=True)
         self.assertContains(response_delete_status,
-                            _('The status has been deleted'),
+                            'Статус удален',
                             status_code=200)
         self.assertEqual(self.statuses.count(), 0)

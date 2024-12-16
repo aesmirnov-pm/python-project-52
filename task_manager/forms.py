@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext as _
 
 
 class InactiveUserAuthenticationForm(AuthenticationForm):
@@ -9,7 +8,7 @@ class InactiveUserAuthenticationForm(AuthenticationForm):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': _('Имя пользователя')
+                'placeholder': 'Имя пользователя'
             }
         )
     )
@@ -17,7 +16,7 @@ class InactiveUserAuthenticationForm(AuthenticationForm):
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': _('Пароль')
+                'placeholder': 'Пароль'
             }
         )
     )

@@ -1,7 +1,7 @@
-from django.test import TestCase
 from django.contrib.auth import get_user_model
+from django.test import TestCase
+
 from .models import Label
-from django.utils.translation import gettext as _
 
 
 class LabelTest(TestCase):
@@ -25,7 +25,7 @@ class LabelTest(TestCase):
                                                  follow=True,
                                                  data={'name': self.label})
         self.assertContains(response_create_label,
-                            _('The label has been created'),
+                            'Метка была создана',
                             status_code=200)
         self.assertEqual(self.labels.count(), 1)
         self.assertEqual(self.labels.first().name, self.label)
@@ -36,7 +36,7 @@ class LabelTest(TestCase):
                                                  follow=True,
                                                  data={'name': self.label_upd})
         self.assertContains(response_update_label,
-                            _('The label has been updated'),
+                            'Метка обновлена',
                             status_code=200)
         self.assertEqual(self.labels.first().name, self.label_upd)
 
@@ -45,6 +45,6 @@ class LabelTest(TestCase):
         response_delete_label = self.client.post('/labels/1/delete/',
                                                  follow=True)
         self.assertContains(response_delete_label,
-                            _('The label has been deleted'),
+                            'Метка удалена',
                             status_code=200)
         self.assertEqual(self.labels.count(), 0)

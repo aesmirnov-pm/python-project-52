@@ -1,16 +1,15 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.utils.translation import gettext as _
 from django.urls import reverse_lazy
 from django.views.generic import DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django_filters.views import FilterView
 
-from .forms import TaskForm
-from .models import Task
-from .filters import TaskFilter
 from task_manager.mixins import HandleNoPermissionMixin
 from task_manager.task.mixins import TaskDeletionPermitMixin
+from .filters import TaskFilter
+from .forms import TaskForm
+from .models import Task
 
 
 # ALL TASKS page
@@ -26,7 +25,7 @@ class TaskCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     form_class = TaskForm
     success_url = reverse_lazy('tasks')
     template_name = 'tasks/new_task.html'
-    success_message = _('The task has been created')
+    success_message = 'Задача создана'
 
     def form_valid(self, form):
         user = self.request.user
@@ -40,7 +39,7 @@ class TaskUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     form_class = TaskForm
     template_name = 'tasks/update_task.html'
     success_url = reverse_lazy('tasks')
-    success_message = _('The task has been updated')
+    success_message = 'Задача обновлена'
 
 
 # DELETE TASK page
@@ -49,7 +48,7 @@ class TaskDeleteView(SuccessMessageMixin, HandleNoPermissionMixin, TaskDeletionP
     model = Task
     template_name = 'tasks/delete_task.html'
     success_url = reverse_lazy('tasks')
-    success_message = _('The task has been deleted')
+    success_message = 'Задача удалена'
 
 
 # TASK DETAILS page

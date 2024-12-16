@@ -3,14 +3,13 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
-from django.utils.translation import gettext as _
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 
+from task_manager.mixins import (DeleteErrorMixin, FeedbackMixin, HandleNoPermissionMixin, NeedAuthMixin,
+                                 NeedPermitMixin)
 from .forms import UserSignUpForm, UserUpdateForm
 from .models import User
-from task_manager.mixins import (NeedAuthMixin, NeedPermitMixin, FeedbackMixin,
-                                 DeleteErrorMixin, HandleNoPermissionMixin)
 
 
 # ALL USERS page
@@ -26,7 +25,7 @@ class UsersCreateFormView(SuccessMessageMixin, CreateView):
     form_class = UserSignUpForm
     success_url = reverse_lazy('login')
     template_name = 'users/new_user.html'
-    success_message = _('The user has been registered')
+    success_message = 'Пользователь зарегистрирован'
 
 
 # UPDATE USER page
@@ -38,7 +37,7 @@ class UsersUpdateView(SuccessMessageMixin, HandleNoPermissionMixin,
     login_url = reverse_lazy('login')
     unauthorized_url = reverse_lazy('users')
     success_url = reverse_lazy('users')
-    success_message = _('The user has been updated')
+    success_message = 'Пользователь обновлен'
 
 
 # DELETE USER page
@@ -48,8 +47,8 @@ class UsersDeleteView(SuccessMessageMixin, HandleNoPermissionMixin, NeedAuthMixi
     template_name = 'users/delete_user.html'
     login_url = reverse_lazy('login')
     success_url = reverse_lazy('users')
-    success_message = _('The user has been deleted')
-    reject_message = _('You cannot delete the user that is ascribed a task')
+    success_message = 'Пользователь успешно удален'
+    reject_message = 'Вы не можете удалить пользователя который привязан к задаче'
 
 
 # LOGIN USER page
@@ -59,14 +58,14 @@ class UsersLoginView(FeedbackMixin, LoginView):
     redirect_authenticated_user = True
     template_name = 'login.html'
     next_page = reverse_lazy('home')
-    success_message = _('You have logged in')
-    error_message = _('Enter correct username and password. Both fields can be case-sensitive')
+    success_message = 'Вы успешно вошли'
+    error_message = 'Введите корректное имя пользователя и парооль.'
 
 
 # LOGOUT USER page
 class UsersLogoutView(LogoutView):
     next_page = reverse_lazy('home')
-    success_message = _('You have logged out')
+    success_message = 'Вы вышли'
 
     def dispatch(self, request, *args, **kwargs):
         messages.add_message(request, messages.INFO, self.success_message)

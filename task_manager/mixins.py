@@ -4,7 +4,6 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import ProtectedError
 from django.shortcuts import HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.utils.translation import gettext as _
 
 
 class FeedbackMixin(SuccessMessageMixin):
@@ -23,7 +22,7 @@ class FeedbackMixin(SuccessMessageMixin):
 
 class NeedAuthMixin(LoginRequiredMixin):
     def dispatch(self, request, *args, **kwargs):
-        self.permission_denied_message = _('You are not authenticated! Please, log in.')
+        self.permission_denied_message = 'You are not authenticated! Please, log in.'
         self.redirect_url = reverse_lazy('login')
         return super().dispatch(request, *args, **kwargs)
 
@@ -39,7 +38,7 @@ class NeedPermitMixin(UserPassesTestMixin):
         return self.request.user == self.get_object()
 
     def dispatch(self, request, *args, **kwargs):
-        self.permission_denied_message = _('You are not authorized to change other users.')
+        self.permission_denied_message = 'У вас нет прав редактировать пользователей.'
         self.redirect_url = reverse_lazy('users')
         return super().dispatch(request, *args, **kwargs)
 

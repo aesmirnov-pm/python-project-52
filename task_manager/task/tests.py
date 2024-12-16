@@ -1,9 +1,9 @@
-from django.test import TestCase
 from django.contrib.auth import get_user_model
-from task_manager.status.models import Status
+from django.test import TestCase
+
 from task_manager.label.models import Label
+from task_manager.status.models import Status
 from .models import Task
-from django.utils.translation import gettext as _
 
 
 class TaskTest(TestCase):
@@ -46,7 +46,7 @@ class TaskTest(TestCase):
                                                     'executor': self.user.id,
                                                 })
         self.assertContains(response_create_task,
-                            _('The task has been created'),
+                            'Задача создана',
                             status_code=200)
         self.assertEqual(self.tasks.count(), 1)
         self.assertTrue(all((
@@ -69,7 +69,7 @@ class TaskTest(TestCase):
                                                     'executor': self.user.id,
                                                 })
         self.assertContains(response_update_task,
-                            _('The task has been updated'),
+                            'Задача обновлена',
                             status_code=200)
         self.assertTrue(self.tasks.first().description == self.task_name)
 
@@ -79,6 +79,6 @@ class TaskTest(TestCase):
         response_delete_task = self.client.post('/tasks/1/delete/',
                                                 follow=True)
         self.assertContains(response_delete_task,
-                            _('The task has been deleted'),
+                            'Задача удалена',
                             status_code=200)
         self.assertEqual(self.tasks.count(), 0)
