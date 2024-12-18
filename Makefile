@@ -27,4 +27,4 @@ install:
 
 test-coverage:
 	poetry run coverage run manage.py test
-	poetry run coverage xml
+	#poetry run coverage xml
