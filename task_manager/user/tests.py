@@ -90,7 +90,7 @@ class UserTest(TestCase):
                                                })
         self.assertContains(
             response_login_user,
-            'Вы вошли',
+            'Вы успешно вошли',
             status_code=200,
         )
         self.assertTrue(self.user.is_authenticated)
@@ -103,7 +103,7 @@ class UserTest(TestCase):
                                                })
         self.assertContains(
             response_login_user,
-            'Введите правильное имя пользователя и пароль',
+            'Введите корректное имя пользователя и парооль.',
             status_code=200
         )
 
