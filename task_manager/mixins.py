@@ -38,7 +38,7 @@ class NeedPermitMixin(UserPassesTestMixin):
         return self.request.user == self.get_object()
 
     def dispatch(self, request, *args, **kwargs):
-        self.permission_denied_message = 'У вас нет прав редактировать пользователей.'
+        self.permission_denied_message = 'У вас нет прав Изменить пользователей.'
         self.redirect_url = reverse_lazy('users')
         return super().dispatch(request, *args, **kwargs)
 

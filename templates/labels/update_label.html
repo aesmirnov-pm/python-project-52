@@ -2,11 +2,11 @@
 {% load bootstrap5 %}
 {% block content %}
 
-<h1 class="my-4">Редактировать метку</h1>
+<h1 class="my-4">Изменить метку</h1>
 <form method="post">
     {% csrf_token %}
     {% bootstrap_form form %}
-    <input class="btn btn-primary" type="submit" value="Редактировать">
+    <input class="btn btn-primary" type="submit" value="Изменить">
 </form>
 
 {% endblock content %}

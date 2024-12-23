@@ -1,10 +1,10 @@
 {% extends '../layout.html' %}
 {% load bootstrap5 %}
 {% block content %}
-<h1 class="my-4">Редактировать статус</h1>
+<h1 class="my-4">Изменить статус</h1>
 <form method="post">
     {% csrf_token %}
     {% bootstrap_form form %}
-    <input class="btn btn-primary" type="submit" value="Редактировать">
+    <input class="btn btn-primary" type="submit" value="Изменить">
 </form>
 {% endblock content %}
