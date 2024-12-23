@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView, LogoutView
@@ -51,10 +52,27 @@ class UsersDeleteView(SuccessMessageMixin, HandleNoPermissionMixin, NeedAuthMixi
     reject_message = 'Вы не можете удалить пользователя который привязан к задаче'
 
 
+class CustomAuthenticationForm(AuthenticationForm):
+    username = forms.CharField(
+        label='Имя пользователя',
+        widget=forms.TextInput(attrs={'placeholder': 'Имя пользователя'}),
+        required=True
+    )
+    password = forms.CharField(
+        label='Пароль',
+        widget=forms.PasswordInput(attrs={'placeholder': 'Пароль'}),
+        required=True
+    )
+
+    class Meta:
+        model = User
+        fields = ('username', 'password')
+
+
 # LOGIN USER page
 class UsersLoginView(FeedbackMixin, LoginView):
     model = User
-    form_class = AuthenticationForm
+    form_class = CustomAuthenticationForm
     redirect_authenticated_user = True
     template_name = 'login.html'
     next_page = reverse_lazy('home')

@@ -1,15 +1,40 @@
-from django.contrib.auth.forms import forms, UserCreationForm
-
-from .models import User
+# forms.py
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
 
 
 class UserSignUpForm(UserCreationForm):
-    first_name = forms.CharField(required=True, label='Имя')
-    last_name = forms.CharField(required=True, label='Фамилия')
+    # Overriding the labels for existing fields
+    first_name = forms.CharField(
+        required=True,
+        label=_('Имя')
+    )
+    last_name = forms.CharField(
+        required=True,
+        label=_('Фамилия')
+    )
+    username = forms.CharField(
+        required=True,
+        label=_('Имя пользователя')
+    )
+
+    # Ensure password fields are translated (password1 and password2)
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'placeholder': _('Пароль')}),
+        label=_('Пароль'),
+        required=True
+    )
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'placeholder': _('Подтверждение пароля')}),
+        label=_('Подтверждение пароля'),
+        required=True
+    )
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'username')
+        fields = ('first_name', 'last_name', 'username', 'password1', 'password2')
 
 
 class UserUpdateForm(UserSignUpForm):
