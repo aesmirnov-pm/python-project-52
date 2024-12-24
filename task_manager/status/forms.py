@@ -8,5 +8,5 @@ class StatusForm(forms.ModelForm):
         model = Status
         fields = ('name',)
         labels = {
-            'name': 'Название статуса',
+            'name': 'Имя',
         }

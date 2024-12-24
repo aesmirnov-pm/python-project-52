@@ -8,5 +8,5 @@ class LabelForm(forms.ModelForm):
         model = Label
         fields = ('name',)
         labels = {
-            'name': 'Название метки',
+            'name': 'Имя',
         }

@@ -22,7 +22,7 @@ class StatusCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     form_class = StatusForm
     template_name = 'statuses/new_status.html'
     success_url = reverse_lazy('statuses')
-    success_message = 'Статус создан'
+    success_message = 'Статус успешно создан'
 
 
 # UPDATE STATUS page

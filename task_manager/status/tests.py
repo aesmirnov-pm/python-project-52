@@ -27,7 +27,7 @@ class StatusTest(TestCase):
                                                   follow=True,
                                                   data={'name': self.status})
         self.assertContains(response_create_status,
-                            'Статус создан',
+                            'Статус успешно создан',
                             status_code=200)
         self.assertEqual(self.statuses.count(), 1)
         self.assertEqual(self.statuses.first().name, self.status)

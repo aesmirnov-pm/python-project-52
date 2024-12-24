@@ -22,7 +22,7 @@ class TaskFilter(django_filters.FilterSet):
     executor = django_filters.ModelChoiceFilter(
         queryset=User.objects.all(),
         label_suffix='',
-        label='Исполняющий',
+        label='Исполнитель',
     )
     labels = django_filters.ModelChoiceFilter(
         queryset=Label.objects.all(),
@@ -33,7 +33,7 @@ class TaskFilter(django_filters.FilterSet):
         method='author_filter',
         widget=forms.CheckboxInput(),
         label_suffix='',
-        label='Только мои задачи',
+        label='Только свои задачи',
     )
 
     def author_filter(self, queryset, name, value):
