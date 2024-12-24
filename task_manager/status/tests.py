@@ -3,6 +3,8 @@ from django.test import TestCase
 
 from .models import Status
 
+User = get_user_model()
+
 
 class StatusTest(TestCase):
 
@@ -12,7 +14,7 @@ class StatusTest(TestCase):
         self.password = '12345'
         self.status = 'test_status'
         self.status_upd = 'test_status_upd'
-        get_user_model().objects.create_user(username=self.username, password=self.password)
+        User.objects.create_user(username=self.username, password=self.password)
         self.client.login(username=self.username, password=self.password)
 
     def test_create_status_db(self):

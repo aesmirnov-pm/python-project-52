@@ -1,12 +1,14 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
+User = get_user_model()
+
 
 class UserTest(TestCase):
     fixtures = ['users.json']
 
     def setUp(self, **kwargs):
-        self.users = get_user_model().objects.all()
+        self.users = User.objects.all()
         self.username, self.first_name, self.last_name = 'testuser', 'tester', 'testoff'
         self.password = 'qwe123qwe1'
         self.form_data = {
@@ -41,23 +43,23 @@ class UserTest(TestCase):
                             'Пользователь зарегистрирован',
                             status_code=200)
 
-        self.assertIsNotNone(get_user_model().objects.filter(
+        self.assertIsNotNone(User.objects.filter(
             first_name=self.first_name,
             last_name=self.last_name,
             username=self.username,
         ))
 
     def test_create_unique_user_form(self):
-        get_user_model().objects.create_user(first_name=self.first_name,
-                                             last_name=self.last_name,
-                                             username=self.username,
-                                             password=self.password)
+        User.objects.create_user(first_name=self.first_name,
+                                 last_name=self.last_name,
+                                 username=self.username,
+                                 password=self.password)
 
         response_register_user = self.client.post('/users/create/',
                                                   follow=True,
                                                   data=self.form_data)
         self.assertEqual(response_register_user.status_code, 200)
-        self.assertIsNotNone(get_user_model().objects.filter(username=self.username))
+        self.assertIsNotNone(User.objects.filter(username=self.username))
 
     def test_user_update_form(self):
         self.client.login(username=self.form_data_1['username'],
@@ -67,7 +69,7 @@ class UserTest(TestCase):
                                                 data=self.form_data)
         self.assertContains(response_update_user, 'Пользователь обновлен', status_code=200)
 
-        self.assertEqual(get_user_model().objects.get(
+        self.assertEqual(User.objects.get(
             id=self.form_data_1['id']).username, self.username)
 
     def test_user_delete_form(self):
@@ -76,12 +78,12 @@ class UserTest(TestCase):
         response_delete_user = self.client.post('/users/{}/delete/'.format(self.users[0].id),
                                                 follow=True)
         self.assertContains(response_delete_user, 'Пользователь успешно удален', status_code=200)
-        self.assertEqual(get_user_model().objects.filter(
+        self.assertEqual(User.objects.filter(
             username=self.form_data_1['username']).exists(), False)
 
     def test_login_right_form(self):
-        self.user = get_user_model().objects.create_user(username=self.username,
-                                                         password=self.password)
+        self.user = User.objects.create_user(username=self.username,
+                                             password=self.password)
         response_login_user = self.client.post('/login/',
                                                follow=True,
                                                data={
@@ -113,12 +115,12 @@ class UserTest(TestCase):
         response_delete_user = self.client.post('/users/{}/delete/'.format(self.users[1].id),
                                                 follow=True)
         self.assertContains(response_delete_user,
-                            'У вас нет прав редактировать пользователей.',
+                            'У вас нет прав Изменить пользователей.',
                             status_code=200)
 
         response_update_user = self.client.post('/users/{}/update/'.format(self.users[1].id),
                                                 follow=True,
                                                 data=self.form_data_2)
         self.assertContains(response_update_user,
-                            'У вас нет прав редактировать пользователей.',
+                            'У вас нет прав Изменить пользователей.',
                             status_code=200)

@@ -3,6 +3,8 @@ from django.test import TestCase
 
 from .models import Label
 
+User = get_user_model()
+
 
 class LabelTest(TestCase):
 
@@ -12,7 +14,7 @@ class LabelTest(TestCase):
         self.password = '12345'
         self.label = 'test_label'
         self.label_upd = 'test_label_upd'
-        get_user_model().objects.create_user(username=self.username, password=self.password)
+        User.objects.create_user(username=self.username, password=self.password)
         self.client.login(username=self.username, password=self.password)
 
     def test_create_label_db(self):

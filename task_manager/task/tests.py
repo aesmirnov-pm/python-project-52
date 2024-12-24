@@ -5,6 +5,8 @@ from task_manager.label.models import Label
 from task_manager.status.models import Status
 from .models import Task
 
+User = get_user_model()
+
 
 class TaskTest(TestCase):
 
@@ -13,8 +15,8 @@ class TaskTest(TestCase):
         self.username = 'testuser'
         self.password = '12345'
         self.task_name = 'test_task'
-        self.user = get_user_model().objects.create_user(username=self.username,
-                                                         password=self.password)
+        self.user = User.objects.create_user(username=self.username,
+                                             password=self.password)
         self.client.login(username=self.username, password=self.password)
         self.status = Status.objects.create(name='test_status')
         self.label = Label.objects.create(name='test_label')

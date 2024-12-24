@@ -12,17 +12,19 @@ from task_manager.mixins import (DeleteErrorMixin, FeedbackMixin, HandleNoPermis
                                  NeedPermitMixin)
 from .forms import UserSignUpForm, UserUpdateForm
 
+User = get_user_model()
+
 
 # ALL USERS page
 class UsersView(ListView):
-    model = get_user_model()
+    model = User
     template_name = 'users/users.html'
     ordering = ['id']
 
 
 # CREATE USER page
 class UsersCreateFormView(SuccessMessageMixin, CreateView):
-    model = get_user_model()
+    model = User
     form_class = UserSignUpForm
     success_url = reverse_lazy('login')
     template_name = 'users/new_user.html'
@@ -32,7 +34,7 @@ class UsersCreateFormView(SuccessMessageMixin, CreateView):
 # UPDATE USER page
 class UsersUpdateView(SuccessMessageMixin, HandleNoPermissionMixin,
                       NeedAuthMixin, NeedPermitMixin, UpdateView):
-    model = get_user_model()
+    model = User
     form_class = UserUpdateForm
     template_name = 'users/update_user.html'
     login_url = reverse_lazy('login')
@@ -44,7 +46,7 @@ class UsersUpdateView(SuccessMessageMixin, HandleNoPermissionMixin,
 # DELETE USER page
 class UsersDeleteView(SuccessMessageMixin, HandleNoPermissionMixin, NeedAuthMixin,
                       NeedPermitMixin, DeleteErrorMixin, DeleteView):
-    model = get_user_model()
+    model = User
     template_name = 'users/delete_user.html'
     login_url = reverse_lazy('login')
     success_url = reverse_lazy('users')
@@ -65,13 +67,13 @@ class CustomAuthenticationForm(AuthenticationForm):
     )
 
     class Meta:
-        model = get_user_model()
+        model = User
         fields = ('username', 'password')
 
 
 # LOGIN USER page
 class UsersLoginView(FeedbackMixin, LoginView):
-    model = get_user_model()
+    model = User
     form_class = CustomAuthenticationForm
     redirect_authenticated_user = True
     template_name = 'login.html'
