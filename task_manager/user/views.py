@@ -85,7 +85,7 @@ class UsersLoginView(FeedbackMixin, LoginView):
 # LOGOUT USER page
 class UsersLogoutView(LogoutView):
     next_page = reverse_lazy('home')
-    success_message = 'Вы вышли'
+    success_message = 'Вы разлогинены'
 
     def dispatch(self, request, *args, **kwargs):
         messages.add_message(request, messages.INFO, self.success_message)
