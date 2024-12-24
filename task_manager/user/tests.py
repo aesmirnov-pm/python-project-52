@@ -40,7 +40,7 @@ class UserTest(TestCase):
                                                   follow=True,
                                                   data=self.form_data)
         self.assertContains(response_register_user,
-                            'Пользователь зарегистрирован',
+                            'Пользователь успешно зарегистрирован',
                             status_code=200)
 
         self.assertIsNotNone(User.objects.filter(
@@ -92,7 +92,7 @@ class UserTest(TestCase):
                                                })
         self.assertContains(
             response_login_user,
-            'Вы успешно вошли',
+            'Вы залогинены',
             status_code=200,
         )
         self.assertTrue(self.user.is_authenticated)
@@ -115,12 +115,12 @@ class UserTest(TestCase):
         response_delete_user = self.client.post('/users/{}/delete/'.format(self.users[1].id),
                                                 follow=True)
         self.assertContains(response_delete_user,
-                            'У вас нет прав Изменить пользователей.',
+                            'У вас нет прав для изменения другого пользователя.',
                             status_code=200)
 
         response_update_user = self.client.post('/users/{}/update/'.format(self.users[1].id),
                                                 follow=True,
                                                 data=self.form_data_2)
         self.assertContains(response_update_user,
-                            'У вас нет прав Изменить пользователей.',
+                            'У вас нет прав для изменения другого пользователя.',
                             status_code=200)

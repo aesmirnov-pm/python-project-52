@@ -28,7 +28,7 @@ class UsersCreateFormView(SuccessMessageMixin, CreateView):
     form_class = UserSignUpForm
     success_url = reverse_lazy('login')
     template_name = 'users/new_user.html'
-    success_message = 'Пользователь зарегистрирован'
+    success_message = 'Пользователь успешно зарегистрирован'
 
 
 # UPDATE USER page
@@ -78,7 +78,7 @@ class UsersLoginView(FeedbackMixin, LoginView):
     redirect_authenticated_user = True
     template_name = 'login.html'
     next_page = reverse_lazy('home')
-    success_message = 'Вы успешно вошли'
+    success_message = 'Вы залогинены'
     error_message = 'Введите корректное имя пользователя и парооль.'
 
 
