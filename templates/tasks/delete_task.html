@@ -3,10 +3,10 @@
 {% block content %}
 
 <h1 class="my-4">Удаление задачи</h1>
-<p>Вы действительно хотите удалить '{{ task.name }}' ?</p>
+<p>Вы уверены, что хотите удалит '{{ task.name }}' ?</p>
 <form action="{% url 'task_delete' task.id %}" method="post">
     {% csrf_token %}
-    <input class="btn btn-danger" type="submit" value="Да">
+    <input class="btn btn-danger" type="submit" value="Да, удалить">
 </form>
 
 {% endblock content %}
