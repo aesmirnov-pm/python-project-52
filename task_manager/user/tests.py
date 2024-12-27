@@ -67,7 +67,7 @@ class UserTest(TestCase):
         response_update_user = self.client.post('/users/{}/update/'.format(self.form_data_1['id']),
                                                 follow=True,
                                                 data=self.form_data)
-        self.assertContains(response_update_user, 'Пользователь обновлен', status_code=200)
+        self.assertContains(response_update_user, 'Пользователь успешно изменен', status_code=200)
 
         self.assertEqual(User.objects.get(
             id=self.form_data_1['id']).username, self.username)

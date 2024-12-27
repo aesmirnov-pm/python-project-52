@@ -40,7 +40,7 @@ class UsersUpdateView(SuccessMessageMixin, HandleNoPermissionMixin,
     login_url = reverse_lazy('login')
     unauthorized_url = reverse_lazy('users')
     success_url = reverse_lazy('users')
-    success_message = 'Пользователь обновлен'
+    success_message = 'Пользователь успешно изменен'
 
 
 # DELETE USER page
