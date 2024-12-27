@@ -3,10 +3,10 @@
 {% block content %}
 
 <h1 class="my-4">Удаление статуса</h1>
-<p>Вы точно хотите удалить '{{ status.name }}' ?</p>
+<p>Вы уверены, что хотите удалить '{{ status.name }}' ?</p>
 <form action="{% url 'status_delete' status.id %}" method="post">
     {% csrf_token %}
-    <input class="btn btn-danger" type="submit" value="Да">
+    <input class="btn btn-danger" type="submit" value="Да, удалить">
 </form>
 
 {% endblock content %}
