@@ -22,7 +22,7 @@ class LabelCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     form_class = LabelForm
     template_name = 'labels/new_label.html'
     success_url = reverse_lazy('labels')
-    success_message = 'Метка была создана'
+    success_message = 'Метка успешно создана'
 
 
 # UPDATE LABEL page

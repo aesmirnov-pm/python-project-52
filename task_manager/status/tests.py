@@ -38,7 +38,7 @@ class StatusTest(TestCase):
                                                   follow=True,
                                                   data={'name': self.status_upd})
         self.assertContains(response_update_status,
-                            'Статус обновлен',
+                            'Статус успешно изменен',
                             status_code=200)
         self.assertEqual(self.statuses.first().name, self.status_upd)
 
@@ -47,6 +47,6 @@ class StatusTest(TestCase):
         response_delete_status = self.client.post('/statuses/1/delete/',
                                                   follow=True)
         self.assertContains(response_delete_status,
-                            'Статус удален',
+                            'Статус успешно удален',
                             status_code=200)
         self.assertEqual(self.statuses.count(), 0)
