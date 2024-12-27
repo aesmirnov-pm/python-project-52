@@ -39,7 +39,7 @@ class TaskUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     form_class = TaskForm
     template_name = 'tasks/update_task.html'
     success_url = reverse_lazy('tasks')
-    success_message = 'Задача обновлена'
+    success_message = 'Задача успешно изменена'
 
 
 # DELETE TASK page
@@ -48,7 +48,7 @@ class TaskDeleteView(SuccessMessageMixin, HandleNoPermissionMixin, TaskDeletionP
     model = Task
     template_name = 'tasks/delete_task.html'
     success_url = reverse_lazy('tasks')
-    success_message = 'Задача удалена'
+    success_message = 'Задача успешно удалена'
 
 
 # TASK DETAILS page

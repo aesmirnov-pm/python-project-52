@@ -31,7 +31,7 @@ class LabelUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     form_class = LabelForm
     template_name = 'labels/update_label.html'
     success_url = reverse_lazy('labels')
-    success_message = 'Метка обновлена'
+    success_message = 'Метка успешно изменена'
 
 
 # DELETE STATUS page
@@ -39,5 +39,5 @@ class LabelDeleteView(SuccessMessageMixin, LoginRequiredMixin, DeleteErrorMixin,
     model = Label
     template_name = 'labels/delete_label.html'
     success_url = reverse_lazy('labels')
-    success_message = 'Метка удалена'
+    success_message = 'Метка успешно удалена'
     reject_message = 'You cannot delete the label that is used in a task'
