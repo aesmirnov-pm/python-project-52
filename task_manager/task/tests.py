@@ -48,7 +48,7 @@ class TaskTest(TestCase):
                                                     'executor': self.user.id,
                                                 })
         self.assertContains(response_create_task,
-                            'Задача создана',
+                            'Задача успешно создана',
                             status_code=200)
         self.assertEqual(self.tasks.count(), 1)
         self.assertTrue(all((
@@ -71,7 +71,7 @@ class TaskTest(TestCase):
                                                     'executor': self.user.id,
                                                 })
         self.assertContains(response_update_task,
-                            'Задача обновлена',
+                            'Задача успешно изменена',
                             status_code=200)
         self.assertTrue(self.tasks.first().description == self.task_name)
 
@@ -81,6 +81,6 @@ class TaskTest(TestCase):
         response_delete_task = self.client.post('/tasks/1/delete/',
                                                 follow=True)
         self.assertContains(response_delete_task,
-                            'Задача удалена',
+                            'Задача успешно удалена',
                             status_code=200)
         self.assertEqual(self.tasks.count(), 0)

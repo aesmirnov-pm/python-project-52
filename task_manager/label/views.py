@@ -40,4 +40,4 @@ class LabelDeleteView(SuccessMessageMixin, LoginRequiredMixin, DeleteErrorMixin,
     template_name = 'labels/delete_label.html'
     success_url = reverse_lazy('labels')
     success_message = 'Метка успешно удалена'
-    reject_message = 'You cannot delete the label that is used in a task'
+    reject_message = 'Невозможно удалить метку'

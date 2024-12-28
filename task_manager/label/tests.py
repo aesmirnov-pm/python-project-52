@@ -27,7 +27,7 @@ class LabelTest(TestCase):
                                                  follow=True,
                                                  data={'name': self.label})
         self.assertContains(response_create_label,
-                            'Метка была создана',
+                            'Метка успешно создана',
                             status_code=200)
         self.assertEqual(self.labels.count(), 1)
         self.assertEqual(self.labels.first().name, self.label)
@@ -38,7 +38,7 @@ class LabelTest(TestCase):
                                                  follow=True,
                                                  data={'name': self.label_upd})
         self.assertContains(response_update_label,
-                            'Метка обновлена',
+                            'Метка успешно изменена',
                             status_code=200)
         self.assertEqual(self.labels.first().name, self.label_upd)
 
@@ -47,6 +47,6 @@ class LabelTest(TestCase):
         response_delete_label = self.client.post('/labels/1/delete/',
                                                  follow=True)
         self.assertContains(response_delete_label,
-                            'Метка удалена',
+                            'Метка успешно удалена',
                             status_code=200)
         self.assertEqual(self.labels.count(), 0)
