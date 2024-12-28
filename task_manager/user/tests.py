@@ -9,7 +9,10 @@ class UserTest(TestCase):
 
     def setUp(self, **kwargs):
         self.users = User.objects.all()
-        self.username, self.first_name, self.last_name = 'testuser', 'tester', 'testoff'
+        self.username, self.first_name, self.last_name = (
+            'testuser',
+            'tester',
+            'testoff')
         self.password = 'qwe123qwe1'
         self.form_data = {
             'first_name': self.first_name,
@@ -64,10 +67,12 @@ class UserTest(TestCase):
     def test_user_update_form(self):
         self.client.login(username=self.form_data_1['username'],
                           password=self.form_data_1['password1'])
-        response_update_user = self.client.post('/users/{}/update/'.format(self.form_data_1['id']),
-                                                follow=True,
-                                                data=self.form_data)
-        self.assertContains(response_update_user, 'Пользователь успешно изменен', status_code=200)
+        response_update_user = self.client.post('/users/{}/update/'.format(
+            self.form_data_1['id']),
+            follow=True,
+            data=self.form_data)
+        self.assertContains(response_update_user, 'Пользователь успешно изменен',
+                            status_code=200)
 
         self.assertEqual(User.objects.get(
             id=self.form_data_1['id']).username, self.username)
@@ -75,9 +80,11 @@ class UserTest(TestCase):
     def test_user_delete_form(self):
         self.client.login(username=self.form_data_1['username'],
                           password=self.form_data_1['password1'])
-        response_delete_user = self.client.post('/users/{}/delete/'.format(self.users[0].id),
-                                                follow=True)
-        self.assertContains(response_delete_user, 'Пользователь успешно удален', status_code=200)
+        response_delete_user = self.client.post('/users/{}/delete/'.format(
+            self.users[0].id),
+            follow=True)
+        self.assertContains(response_delete_user, 'Пользователь успешно удален',
+                            status_code=200)
         self.assertEqual(User.objects.filter(
             username=self.form_data_1['username']).exists(), False)
 
@@ -112,15 +119,19 @@ class UserTest(TestCase):
     def test_user_unauthorized(self):
         self.client.login(username=self.form_data_1['username'],
                           password=self.form_data_1['password1'])
-        response_delete_user = self.client.post('/users/{}/delete/'.format(self.users[1].id),
-                                                follow=True)
-        self.assertContains(response_delete_user,
-                            'У вас нет прав для изменения другого пользователя.',
-                            status_code=200)
+        response_delete_user = self.client.post('/users/{}/delete/'.format(
+            self.users[1].id),
+            follow=True)
+        self.assertContains(
+            response_delete_user,
+            'У вас нет прав для изменения другого пользователя.',
+            status_code=200)
 
-        response_update_user = self.client.post('/users/{}/update/'.format(self.users[1].id),
-                                                follow=True,
-                                                data=self.form_data_2)
-        self.assertContains(response_update_user,
-                            'У вас нет прав для изменения другого пользователя.',
-                            status_code=200)
+        response_update_user = self.client.post('/users/{}/update/'.format(
+            self.users[1].id),
+            follow=True,
+            data=self.form_data_2)
+        self.assertContains(
+            response_update_user,
+            'У вас нет прав для изменения другого пользователя.',
+            status_code=200)

@@ -5,7 +5,6 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 
 from task_manager.mixins import DeleteErrorMixin
-
 from .forms import StatusForm
 from .models import Status
 
@@ -36,7 +35,9 @@ class StatusUpdateFormView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
 
 
 # DELETE STATUS page
-class StatusDeleteView(SuccessMessageMixin, LoginRequiredMixin, DeleteErrorMixin,
+class StatusDeleteView(SuccessMessageMixin,
+                       LoginRequiredMixin,
+                       DeleteErrorMixin,
                        DeleteView):
     model = Status
     template_name = 'statuses/delete_status.html'

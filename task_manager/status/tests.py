@@ -34,9 +34,10 @@ class StatusTest(TestCase):
 
     def test_update_status_form(self):
         Status.objects.create(name=self.status)
-        response_update_status = self.client.post('/statuses/1/update/',
-                                                  follow=True,
-                                                  data={'name': self.status_upd})
+        response_update_status = (
+            self.client.post('/statuses/1/update/',
+                             follow=True,
+                             data={'name': self.status_upd}))
         self.assertContains(response_update_status,
                             'Статус успешно изменен',
                             status_code=200)

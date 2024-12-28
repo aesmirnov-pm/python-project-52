@@ -15,7 +15,6 @@ from task_manager.mixins import (
     NeedAuthMixin,
     NeedPermitMixin,
 )
-
 from .forms import UserSignUpForm, UserUpdateForm
 
 User = get_user_model()
@@ -50,14 +49,19 @@ class UsersUpdateView(SuccessMessageMixin, HandleNoPermissionMixin,
 
 
 # DELETE USER page
-class UsersDeleteView(SuccessMessageMixin, HandleNoPermissionMixin, NeedAuthMixin,
-                      NeedPermitMixin, DeleteErrorMixin, DeleteView):
+class UsersDeleteView(SuccessMessageMixin,
+                      HandleNoPermissionMixin,
+                      NeedAuthMixin,
+                      NeedPermitMixin,
+                      DeleteErrorMixin,
+                      DeleteView):
     model = User
     template_name = 'users/delete_user.html'
     login_url = reverse_lazy('login')
     success_url = reverse_lazy('users')
     success_message = 'Пользователь успешно удален'
-    reject_message = 'Вы не можете удалить пользователя который привязан к задаче'
+    reject_message = \
+        'Вы не можете удалить пользователя который привязан к задаче'
 
 
 class CustomAuthenticationForm(AuthenticationForm):

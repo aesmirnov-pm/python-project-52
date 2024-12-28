@@ -3,7 +3,6 @@ from django.test import TestCase
 
 from task_manager.label.models import Label
 from task_manager.status.models import Status
-
 from .models import Task
 
 User = get_user_model()
@@ -39,15 +38,16 @@ class TaskTest(TestCase):
         )))
 
     def test_create_task_form(self):
-        response_create_task = self.client.post('/tasks/create/',
-                                                follow=True,
-                                                data={
-                                                    'name': self.task_name,
-                                                    'description': self.task_name,
-                                                    'status': self.status.id,
-                                                    'author': self.user.id,
-                                                    'executor': self.user.id,
-                                                })
+        response_create_task = (
+            self.client.post('/tasks/create/',
+                             follow=True,
+                             data={
+                                 'name': self.task_name,
+                                 'description': self.task_name,
+                                 'status': self.status.id,
+                                 'author': self.user.id,
+                                 'executor': self.user.id,
+                             }))
         self.assertContains(response_create_task,
                             'Задача успешно создана',
                             status_code=200)

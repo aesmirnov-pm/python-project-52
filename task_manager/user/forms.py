@@ -29,14 +29,20 @@ class UserSignUpForm(UserCreationForm):
         required=True
     )
     password2 = forms.CharField(
-        widget=forms.PasswordInput(attrs={'placeholder': _('Подтверждение пароля')}),
+        widget=
+        forms.PasswordInput(attrs=
+                            {'placeholder': _('Подтверждение пароля')}),
         label=_('Подтверждение пароля'),
         required=True
     )
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'username', 'password1', 'password2')
+        fields = ('first_name',
+                  'last_name',
+                  'username',
+                  'password1',
+                  'password2')
 
 
 class UserUpdateForm(UserSignUpForm):

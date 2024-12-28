@@ -7,7 +7,6 @@ from django_filters.views import FilterView
 
 from task_manager.mixins import HandleNoPermissionMixin
 from task_manager.task.mixins import TaskDeletionPermitMixin
-
 from .filters import TaskFilter
 from .forms import TaskForm
 from .models import Task
@@ -44,7 +43,9 @@ class TaskUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
 
 
 # DELETE TASK page
-class TaskDeleteView(SuccessMessageMixin, HandleNoPermissionMixin, TaskDeletionPermitMixin,
+class TaskDeleteView(SuccessMessageMixin,
+                     HandleNoPermissionMixin,
+                     TaskDeletionPermitMixin,
                      DeleteView):
     model = Task
     template_name = 'tasks/delete_task.html'

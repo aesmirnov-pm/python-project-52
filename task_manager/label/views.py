@@ -5,7 +5,6 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 
 from task_manager.mixins import DeleteErrorMixin
-
 from .forms import LabelForm
 from .models import Label
 
@@ -36,7 +35,10 @@ class LabelUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
 
 
 # DELETE STATUS page
-class LabelDeleteView(SuccessMessageMixin, LoginRequiredMixin, DeleteErrorMixin, DeleteView):
+class LabelDeleteView(SuccessMessageMixin,
+                      LoginRequiredMixin,
+                      DeleteErrorMixin,
+                      DeleteView):
     model = Label
     template_name = 'labels/delete_label.html'
     success_url = reverse_lazy('labels')
