@@ -27,7 +27,7 @@ class TaskFilter(django_filters.FilterSet):
     labels = django_filters.ModelChoiceFilter(
         queryset=Label.objects.all(),
         label_suffix='',
-        label='Метки',
+        label='Метка',
     )
     author = django_filters.BooleanFilter(
         method='author_filter',
