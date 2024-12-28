@@ -41,4 +41,4 @@ class StatusDeleteView(SuccessMessageMixin, LoginRequiredMixin, DeleteErrorMixin
     template_name = 'statuses/delete_status.html'
     success_url = reverse_lazy('statuses')
     success_message = 'Статус успешно удален'
-    reject_message = 'You cannot delete the status that is used in a task'
+    reject_message = 'Невозможно удалить статус'
