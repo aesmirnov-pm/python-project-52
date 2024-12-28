@@ -8,8 +8,14 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 
-from task_manager.mixins import (DeleteErrorMixin, FeedbackMixin, HandleNoPermissionMixin, NeedAuthMixin,
-                                 NeedPermitMixin)
+from task_manager.mixins import (
+    DeleteErrorMixin,
+    FeedbackMixin,
+    HandleNoPermissionMixin,
+    NeedAuthMixin,
+    NeedPermitMixin,
+)
+
 from .forms import UserSignUpForm, UserUpdateForm
 
 User = get_user_model()

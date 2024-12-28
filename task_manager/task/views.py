@@ -7,6 +7,7 @@ from django_filters.views import FilterView
 
 from task_manager.mixins import HandleNoPermissionMixin
 from task_manager.task.mixins import TaskDeletionPermitMixin
+
 from .filters import TaskFilter
 from .forms import TaskForm
 from .models import Task

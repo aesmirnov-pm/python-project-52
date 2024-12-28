@@ -5,6 +5,7 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 
 from task_manager.mixins import DeleteErrorMixin
+
 from .forms import LabelForm
 from .models import Label
 
