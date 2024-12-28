@@ -7,6 +7,6 @@ class TaskDeletionPermitMixin(UserPassesTestMixin):
         return self.request.user == self.get_object().author
 
     def dispatch(self, request, *args, **kwargs):
-        self.permission_denied_message = 'You need to be the creator of the task to delete it'
+        self.permission_denied_message = 'Задачу может удалить только ее автор'
         self.redirect_url = reverse_lazy('tasks')
         return super().dispatch(request, *args, **kwargs)
