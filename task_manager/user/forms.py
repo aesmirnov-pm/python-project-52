@@ -24,15 +24,15 @@ class UserSignUpForm(UserCreationForm):
 
     # Ensure password fields are translated (password1 and password2)
     password1 = forms.CharField(
-        widget=forms.PasswordInput(attrs={'placeholder': _('Пароль')}),
+        widget=forms.PasswordInput(attrs={'placeholder': 'Пароль'}),
         label=_('Пароль'),
         required=True
     )
     password2 = forms.CharField(
-        widget=
-        forms.PasswordInput(attrs=
-                            {'placeholder': _('Подтверждение пароля')}),
-        label=_('Подтверждение пароля'),
+        widget=forms.PasswordInput(
+            attrs={'placeholder': 'Подтверждение пароля'}
+        ),
+        label='Подтверждение пароля',
         required=True
     )
 

@@ -62,15 +62,16 @@ class TaskTest(TestCase):
     def test_update_task_form(self):
         Task.objects.create(name=self.task_name, status=self.status,
                             author=self.user, executor=self.user)
-        response_update_task = self.client.post('/tasks/1/update/',
-                                                follow=True,
-                                                data={
-                                                    'name': self.task_name,
-                                                    'description': self.task_name,
-                                                    'status': self.status.id,
-                                                    'author': self.user.id,
-                                                    'executor': self.user.id,
-                                                })
+        response_update_task = (
+            self.client.post('/tasks/1/update/',
+                             follow=True,
+                             data={
+                                 'name': self.task_name,
+                                 'description': self.task_name,
+                                 'status': self.status.id,
+                                 'author': self.user.id,
+                                 'executor': self.user.id,
+                             }))
         self.assertContains(response_update_task,
                             'Задача успешно изменена',
                             status_code=200)
